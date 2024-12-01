@@ -58,6 +58,6 @@ class QuickSearchStudent extends Component
     }
     public function render()
     {
-        return view('livewire.quick-search-student');
+        return view('unistudentmanagement::livewire.quick-search-student');
     }
 }

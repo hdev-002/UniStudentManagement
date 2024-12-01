@@ -24,7 +24,7 @@
                     <div class="row">
                         <div class="col-12 col-md-12 mb-3">
                             <label class="fw-semibold fs-6 mb-2">Student</label>
-                            <livewire:student-select componentId="studentSelect" />
+                            <livewire:unistudentmanagement::student-select componentId="studentSelect" />
                             @error('studentId')<div class="text-danger mt-2">{{ $message }}</div>@enderror
                         </div>
                     </div>

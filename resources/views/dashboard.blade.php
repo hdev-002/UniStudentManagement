@@ -1,6 +1,6 @@
 
 <x-app-layout>
-    <livewire:QuickSearchStudent />
+    <livewire:unistudentmanagement::quick-serarch-student />
 </x-app-layout>
 
 

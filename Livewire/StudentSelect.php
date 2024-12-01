@@ -43,7 +43,7 @@ class StudentSelect extends Component
             })
             ->paginate(10);
 
-        return view('livewire.student-select', compact('options'));
+        return view('unistudentmanagement::livewire.student-select', compact('options'));
     }
 
 }

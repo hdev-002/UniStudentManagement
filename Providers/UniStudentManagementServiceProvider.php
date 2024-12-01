@@ -5,7 +5,9 @@ namespace Modules\UniStudentManagement\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use Modules\UniStudentManagement\Livewire\QuickSearchStudent;
 use Modules\UniStudentManagement\Livewire\StudentCreate;
+use Modules\UniStudentManagement\Livewire\StudentSelect;
 use Modules\UniStudentManagement\Livewire\StudentTable;
 use Modules\UniStudentManagement\Livewire\StudentUpdate;
 use Modules\UniStudentManagement\Livewire\StudentView;
@@ -41,6 +43,9 @@ class UniStudentManagementServiceProvider extends ServiceProvider
         Livewire::component('unistudentmanagement::student-create',StudentCreate::class);
         Livewire::component('unistudentmanagement::student-update',StudentUpdate::class);
         Livewire::component('unistudentmanagement::student-view',StudentView::class);
+
+        Livewire::component('unistudentmanagement::quick-serarch-student',QuickSearchStudent::class);
+        Livewire::component('unistudentmanagement::student-select',StudentSelect::class);
 
         Livewire::component('unistudentmanagement::uni-register-create',UniRegisterCreate::class);
         Livewire::component('unistudentmanagement::uni-register-update',UniRegisterUpdate::class);

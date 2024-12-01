@@ -1,0 +1,11 @@
+{
+    "name": "UniStudentManagement",
+    "alias": "unistudentmanagement",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\UniStudentManagement\\Providers\\UniStudentManagementServiceProvider"
+    ],
+    "files": []
+}

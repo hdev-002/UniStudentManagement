@@ -256,10 +256,16 @@ class StudentCreate extends Component
         $this->reset();
     }
 
+    public function createAndOtherStudent()
+    {
+       $this->createStudent();
+    }
     public function createStudent()
     {
 
-        $this->validate();
+        $this->validate([
+            'name' => 'required|string|min:3',
+        ]);
         Student::updateOrCreate(
             ['student_code' => $this->student_code],
             [

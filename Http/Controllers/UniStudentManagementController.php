@@ -70,7 +70,7 @@ class UniStudentManagementController extends Controller
      */
     public function show($id)
     {
-        return view('unistudentmanagement::show');
+        return view('unistudentmanagement::show', compact('id'));
     }
 
     /**

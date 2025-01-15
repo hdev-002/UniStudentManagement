@@ -13,16 +13,18 @@ class UsmSettings extends Component
         $this->yearOfRecord = \Modules\UniStudentManagement\Models\UsmSettings::where('key', 'year_of_record')->value('value');
     }
 
-    public function updatedYearOfRecord($value){
-        $this->saveData();
-        cache()->forget('year_of_record');
+    public function updated($field, $value)
+    {
+       if ($field == 'yearOfRecord') {
+           $this->saveData();
+       }
     }
 
     public function saveData()
     {
         // Validate the yearOfRecord
         $this->validate([
-            'yearOfRecord' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
+            'yearOfRecord' => 'required',
         ]);
 
         // Save or update the setting

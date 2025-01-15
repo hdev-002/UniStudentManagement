@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Modules\UniStudentManagement\Livewire\QuickSearchStudent;
+use Modules\UniStudentManagement\Livewire\Student\StudentDetails;
 use Modules\UniStudentManagement\Livewire\StudentCreate;
 use Modules\UniStudentManagement\Livewire\StudentSelect;
 use Modules\UniStudentManagement\Livewire\StudentTable;
@@ -42,7 +43,7 @@ class UniStudentManagementServiceProvider extends ServiceProvider
         Livewire::component('unistudentmanagement::student-table',StudentTable::class);
         Livewire::component('unistudentmanagement::student-create',StudentCreate::class);
         Livewire::component('unistudentmanagement::student-update',StudentUpdate::class);
-        Livewire::component('unistudentmanagement::student-view',StudentView::class);
+        Livewire::component('unistudentmanagement::student-details',StudentDetails::class);
 
         Livewire::component('unistudentmanagement::quick-serarch-student',QuickSearchStudent::class);
         Livewire::component('unistudentmanagement::student-select',StudentSelect::class);

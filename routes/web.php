@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\UniStudentManagement\Http\Controllers\UniStudentManagementController;
+use Modules\UniStudentManagement\Models\Student;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,12 @@ Route::middleware([
         Route::get('/create', [UniStudentManagementController::class, 'uniRegistrationCreate'])->name('create');
         Route::get('/{student}/edit', [UniStudentManagementController::class, 'uniRegistrationEdit'])->name('edit');
     });
+
+    Route::get('/students/{student}/print', function ($studentId) {
+        $student = Student::findOrFail($studentId);
+        return view('unistudentmanagement::student.print.template1-student-details', compact('student'));
+    })->name('students.print');
+
 
     Route::get('/draft', [UniStudentManagementController::class, 'draftIndex'])->name('students.draft.index');
     Route::get('/draft/{student}/edit', [UniStudentManagementController::class, 'draftEdit'])->name('students.draft.edit');

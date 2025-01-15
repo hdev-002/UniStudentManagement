@@ -61,7 +61,7 @@
                     <tr>
                         <td class="text-muted py-2">
                             <div class="d-flex align-items-center">
-                                Type</div>
+                                အမျိုးအစား</div>
                         </td>
                         <td class="fw-bold text-end py-2">
                             {{ $student->type ?? '-' }}

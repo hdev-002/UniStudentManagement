@@ -11,10 +11,9 @@ use Modules\UniStudentManagement\Livewire\StudentCreate;
 use Modules\UniStudentManagement\Livewire\StudentSelect;
 use Modules\UniStudentManagement\Livewire\StudentTable;
 use Modules\UniStudentManagement\Livewire\StudentUpdate;
-use Modules\UniStudentManagement\Livewire\StudentView;
 use Modules\UniStudentManagement\Livewire\UniRegisterCreate;
 use Modules\UniStudentManagement\Livewire\UniRegisterUpdate;
-use Modules\UniStudentManagement\Models\UsmSettings;
+use Modules\UniStudentManagement\Livewire\University\UniRegisterCreateV1;
 use Nwidart\Modules\Traits\PathNamespace;
 
 class UniStudentManagementServiceProvider extends ServiceProvider
@@ -44,6 +43,7 @@ class UniStudentManagementServiceProvider extends ServiceProvider
         Livewire::component('unistudentmanagement::student-create',StudentCreate::class);
         Livewire::component('unistudentmanagement::student-update',StudentUpdate::class);
         Livewire::component('unistudentmanagement::student-details',StudentDetails::class);
+        Livewire::component('unistudentmanagement::uni-register-create-v1',UniRegisterCreateV1::class);
 
         Livewire::component('unistudentmanagement::quick-serarch-student',QuickSearchStudent::class);
         Livewire::component('unistudentmanagement::student-select',StudentSelect::class);

@@ -16,6 +16,7 @@ class StudentTable extends Component
 {
     use WithPagination, WithDataTableFilters;
     public $for;
+    public $current_attendance_year;
     public $majorType;
     public $registerType;
     public $selectedStudents = [];
@@ -27,6 +28,16 @@ class StudentTable extends Component
 
     public function mount($for = null)
     {
+        $usmSettings =  \Modules\UniStudentManagement\Models\UsmSettings::where('key','year_of_record')->first();
+        if ($usmSettings == null) {
+            $this->reset();
+            session()->flash('warning', "ကျေးဇူးပြု၍ data ထည့်သွင်းမည့် ခုနှစ် သက်မှတ်ပေးပါ.");
+            return $this->redirect('/unistudentmanagement/major-registration', navigate: false);
+        }
+
+        $this->current_attendance_year = $usmSettings->value;
+
+
         $this->for = $for;
         $this->majorType = collect(MajorType::cases())->map(function ($major) {
             return [
@@ -77,6 +88,11 @@ class StudentTable extends Component
 
     }
 
+    public function bulkUniRecordDelete()
+    {
+
+    }
+
     public function bulkPrint()
     {
         $students = Student::whereIn('id', $this->selectedStudents)->get();
@@ -123,16 +139,18 @@ class StudentTable extends Component
             $data = UniRegister::leftJoin('students', 'students.id', '=', 'uni_registers.student_id')
             ->select('uni_registers.*',
                 'students.name',
+                'students.id as student_id',
                 'students.student_code',
                 'students.father_name',
-                'students.mother_name',);
+                'students.mother_name');
             $searchableColumns = [];
             $filterableColumns = [];
 //            $data = $this->applySearchAndFilters($query, $searchableColumns, $filterableColumns);
         }else{
-            $query = Student::when($this->for == 'major-registration', function ($q) {
-                $q->where('is_major_registered', true)->where('draft', false);
-            })
+            $query = Student::where('current_attendance_year', $this->current_attendance_year)
+                ->when($this->for == "major-registration", function ($q) {
+                    $q->where('is_major_registered', 1);
+                })
                 ->when($this->for != 'major-registration' && $this->for != 'draft', function ($q) {
                     $q->with(['studentNRC', 'fatherNRC', 'motherNRC'])->where('draft', false);
                 })->when($this->for == 'draft', function ($q) {

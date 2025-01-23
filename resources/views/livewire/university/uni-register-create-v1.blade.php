@@ -1,17 +1,17 @@
 <div>
     <div class="d-flex align-items-center justify-content-between mb-3" wire:ignore.self>
         <span class="d-flex align-items-center">
-            <a href="{{ route('students.show', $student->id) }}" class="btn btn-icon btn-custom w-35px h-35px w-md-40px h-md-40px btn-active-light-secondary"><i class="fa-solid fa-arrow-left"></i></a>
-            <span class="fw-bolder fs-2 ms-2">#{{ $student->student_code }}</span>
+            <a href="{{ route('students.index') }}" class="btn btn-icon btn-custom w-35px h-35px w-md-40px h-md-40px btn-active-light-secondary"><i class="fa-solid fa-arrow-left"></i></a>
+            <span class="fw-bolder fs-2 ms-2">ကျောင်းအပ်</span>
             <span wire:loading class="text-secondary-emphasis ms-2"> <i class="fa fa-spinner fa-spin"></i>  Saving Draft...</span></span>
 
-
-        <button type="button" class="btn btn-sm btn-flex btn-secondary align-self-center px-3" wire:click="updateStudent" wire:loading.attr="disabled">
-            <i class="ki-outline ki-plus-square fs-3 text-dark-emphasis"></i> <span class="indicator-label">Update</span>
-            <span class="indicator-progress" wire:loading wire:targe="updateStudent">Saving...
+        @if($name)
+            <button type="button" class="btn btn-sm btn-flex btn-secondary align-self-center px-3" wire:click="createStudent" wire:loading.attr="disabled">
+                <i class="ki-outline ki-plus-square fs-3 text-dark-emphasis"></i> <span class="indicator-label">Save</span>
+                <span class="indicator-progress" wire:loading wire:targe="createStudent">Saving...
 																			<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-        </button>
-
+            </button>
+        @endif
 
     </div>
     <!--begin::Form-->
@@ -28,6 +28,12 @@
                 <div class="card-body p-3 pb-6">
                     <!--begin::Scroll-->
                     <div class="d-flex flex-column px-5 px-lg-10">
+                        <div class="row">
+                            <div class="col-12 col-md-12 mb-5">
+                                <livewire:unistudentmanagement::student-select componentId="studentSelect" />
+                                @error('studentId')<div class="text-danger mt-2">{{ $message }}</div>@enderror
+                            </div>
+                        </div>
                         <div class="row">
                             <!--begin::Input group-->
                             <div class="col-12 mb-3">
@@ -113,46 +119,27 @@
                             </div>
 
                             <!-- Other Fields -->
-                            <div wire:ignore class="col-12 col-md-4 mb-3">
-                                <label class="fw-semibold fs-6 mb-2">အမျိုးစား</label>
+{{--                            <div wire:ignore class="col-12 col-md-4 mb-3">--}}
+{{--                                <label class="fw-semibold fs-6 mb-2">အမျိုးစား</label>--}}
 
-                                <select
-                                    class="form-select form-select-sm select-type"
-                                    id="data-select-type"
-                                    wire:model="type"
-                                    data-control="select2"
-                                    data-placeholder="Select an option"
-                                >
-                                    <option></option>
-                                    @foreach ($registerType as $item)
-                                        <option @selected($type == $item['key']) value="{{ $item['key'] }}">
-                                            {{ $item['value'] }}
-                                        </option>
-                                    @endforeach
-                                </select>
+{{--                                <select--}}
+{{--                                    class="form-select form-select-sm select-type"--}}
+{{--                                    id="data-select-type"--}}
+{{--                                    wire:model="type"--}}
+{{--                                    data-control="select2"--}}
+{{--                                    data-placeholder="Select an option"--}}
+{{--                                >--}}
+{{--                                    <option></option>--}}
+{{--                                    @foreach ($registerType as $item)--}}
+{{--                                        <option @selected($type == $item['key']) value="{{ $item['key'] }}">--}}
+{{--                                            {{ $item['value'] }}--}}
+{{--                                        </option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
 
-                                @error('type')<div class="text-danger">{{ $message }}</div>@enderror
-                            </div>
-                            <div wire:ignore class="col-12 col-md-4 mb-3">
-                                <label class="fw-semibold fs-6 mb-2">မေဂျာ</label>
-
-                                <select
-                                    class="form-select form-select-sm select-major"
-                                    id="data-select-major"
-                                    wire:model="major"
-                                    data-control="select2"
-                                    data-placeholder="Select an option"
-                                >
-                                    <option></option>
-                                    @foreach ($majorType as $item)
-                                        <option @selected($major == $item['key']) value="{{ $item['key'] }}">
-                                            {{ $item['value'] }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('major')<div class="text-danger">{{ $message }}</div>@enderror
-                            </div>
-                            <div wire:ignore class="col-12 col-md-4 mb-3">
+{{--                                @error('type')<div class="text-danger">{{ $message }}</div>@enderror--}}
+{{--                            </div>--}}
+                            <div wire:ignore class="col-12 col-md-6 mb-3">
                                 <label class="fw-semibold fs-6 mb-2">တက္ကသိုလ်</label>
 
                                 <select
@@ -171,6 +158,54 @@
                                 </select>
                                 @error('get_university')<div class="text-danger">{{ $message }}</div>@enderror
                             </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <label class="fw-semibold fs-6 mb-2">တက်ရောက်မည့်နှစ်</label>
+                                <select wire:model="year_of_attendance"
+                                        id="data-select-year-of-attendance"
+                                        class="form-select form-select-sm year-of-attendance-select"
+                                        data-hide-search="true"
+                                        data-control="select2"
+                                        data-placeholder="Select an option"
+                                >
+                                    <option value=""></option>
+                                    <option  @selected(1 == $year_of_attendance) value="1">First Year</option>
+                                    <option  @selected(2 == $year_of_attendance) value="2">Second Year</option>
+                                    <option  @selected(3 == $year_of_attendance) value="3">Third Year</option>
+                                    <option  @selected(4 == $year_of_attendance) value="4">Fourth Year</option>
+                                    <option  @selected(5 == $year_of_attendance) value="5">Fifth Year</option>
+
+                                </select>
+                                @error('approval_no')<div class="text-danger">{{ $message }}</div>@enderror
+                            </div>
+                            <div wire:ignore class="col-12 col-md-6 mb-3">
+                                <label class="fw-semibold fs-6 mb-2">မေဂျာ</label>
+
+                                <select
+                                    class="form-select form-select-sm select-major"
+                                    id="data-select-major"
+                                    wire:model="major"
+                                    data-hide-search="true"
+                                    data-control="select2"
+                                    data-placeholder="Select an option"
+                                >
+                                    <option></option>
+                                    @foreach ($majorType as $item)
+                                        <option @selected($major == $item['key']) value="{{ $item['key'] }}">
+                                            {{ $item['value'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('major')<div class="text-danger">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <label class="fw-semibold fs-6 mb-2">ယခုနှစ် ခုံနံပါတ်</label>
+                                <div class="input-group input-group-sm mb-5 border border-2 border-success rounded-2">
+                                <span class="input-group-text input-group-sm" id="basic-addon1">{{$current_desk_symbol}}</span>
+                                <input type="number" wire:model="current_desk_no" class="form-control form-control-sm" placeholder="Desk ID">
+                                </div>
+                                @error('current_desk_no')<div class="text-danger">{{ $message }}</div>@enderror
+                            </div>
+
 
                         </div>
 
@@ -295,13 +330,70 @@
                 </div>
             </div>
         </div>
+
+        <div class="card card-flush mb-5 w-md-700px shadow-none border-1 border-gray-400">
+            <div class="card-header collapsible cursor-pointer rotate" data-bs-toggle="collapse" data-bs-target="#uni_histories_info_collapsible">
+                <h3 class="card-title">ကျောင်းအပ် မှတ်တမ်း</h3>
+                <div class="card-toolbar rotate-180">
+                    <i class="ki-duotone ki-down fs-1"></i>
+                </div>
+            </div>
+            <div id="uni_histories_collapsible" class="collapse show">
+                <!--begin::Card body-->
+                <div class="card-body p-3 pb-6">
+                    <div class="dt-container dt-bootstrap5">
+                        <div id="" class="table-responsive">
+                            <table class="table align-middle table-row-bordered fs-6">
+                                <thead class="text-nowrap">
+                                <tr class="fw-semibold text-center fs-6 text-gray-900  border-bottom border-gray-200" role="row">
+                                    <th>ခုံနံပါတ်</th>
+                                    <th>ခုနှစ်</th>
+                                    <th>အောင်/ရှုံး</th>
+                                    <th>မှတ်ချက်</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-semibold text-nowrap">
+                                @forelse ($uniRecords as $record)
+                                    <tr class="text-center">
+                                        <td class="py-0">
+                                            {{ $record['current_desk_symbol'] }} {{ $record['current_desk_no'] }}
+                                        </td>
+                                        <td class="py-0">
+                                            {{ $record['year_of_attendance'] }}
+                                        </td>
+                                        <td class="py-0">
+                                    <span class="badge {{ $record['is_win'] ? 'badge-light-success' : 'badge-light-danger' }}">
+                                        {{ $record['is_win'] ? 'Active' : 'Inactive' }}
+                                    </span>
+                                        </td>
+                                        <td class="py-0">
+                                            {{ $record['remark'] }}
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center">ကျောင်းအပ် မှတ်တမ်းများ မရှိပါ</td>
+                                    </tr>
+                                @endforelse
+                                </tbody>
+                                <tfoot></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--begin::Actions-->
         <div class="text-start mb-20">
             <button type="button" class="btn btn-sm btn-light me-3" wire:click="discardData()">Discard</button>
-
-            <button type="button" class="btn btn-sm btn-dark" wire:click="updateStudent" wire:loading.attr="disabled">
-                <span class="indicator-label">Update</span>
-                <span class="indicator-progress" wire:loading wire:targe="updateStudent">Saving...
+            <button type="button" class="btn btn-sm btn-dark me-3" wire:click="createAndOtherStudent" wire:loading.attr="disabled">
+                <span class="indicator-label">Save and New</span>
+                <span class="indicator-progress"  wire:loading wire:targe="createAndOtherStudent">Saving...
+																			<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+            </button>
+            <button type="button" class="btn btn-sm btn-dark" wire:click="createStudent" wire:loading.attr="disabled">
+                <span class="indicator-label">Save</span>
+                <span class="indicator-progress" wire:loading wire:targe="createStudent">Saving...
 																			<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
             </button>
         </div>
@@ -314,47 +406,59 @@
     Inputmask({
         "mask" : "99-99-9999"
     }).mask("#date_of_birth");
+ // setTimeout(function (){
+ //     const selectElement = $('#data-select-student-nrc-code');
+ //
+ //     selectElement.val(3).trigger('change');
+ // },3000)
 </script>
 @endscript
 
-
 @push('scripts')
+
     <script>
+        function initializeSelect2(selector, placeholder, livewireProperty) {
+            $(selector).select2({
+                placeholder: placeholder,
+                allowClear: true,
+            })
+            .on('select2:select', function () {
+            @this.set(livewireProperty, $(selector).select2("val"));
+            })
+            .on('select2:unselect', function () {
+            @this.set(livewireProperty, null);
+            });
+        }
+
         document.addEventListener('livewire:init', () => {
-            function initializeSelect2(selectElementId, livewireProperty) {
-                const selectElement = $(selectElementId);
+            // alert('Livewire initialized!');
 
-                // Initialize Select2
-                selectElement.select2({
-                    placeholder: selectElement.data('placeholder'),
-                    allowClear: true,
-                });
+            // Initial initialization
+            initializeSelect2('#data-select-major', "Select Major", 'major');
+            initializeSelect2('#data-select-year-of-attendance', "Select Major", 'year_of_attendance');
+            initializeSelect2('#data-select-get-university', "Select Major", 'get_university');
 
-                // Sync value with Livewire
-                selectElement.on('change', function (e) {
-                @this.set(livewireProperty, e.target.value || null);
-                });
+            initializeSelect2('#data-select-student-nrc-code', "Select Major", 'student_nrc_code');
+            initializeSelect2('#data-select-father-nrc-code', "Select Major", 'father_nrc_code');
+            initializeSelect2('#data-select-mother-nrc-code', "Select Major", 'mother_nrc_code');
 
-                // Reinitialize Select2 after Livewire updates
-                Livewire.hook('morph.updated', (el, component) => {
-                    if (el instanceof HTMLElement && el.querySelector(selectElementId)) {
-                        selectElement.select2('destroy').select2({
-                            placeholder: selectElement.data('placeholder'),
-                            allowClear: true,
-                        });
-                    }
-                });
-            }
+
+            Livewire.hook('morphed', ({ el, component }) => {
+                initializeSelect2('#data-select-major', "Select Major", 'major');
+                initializeSelect2('#data-select-year-of-attendance', "Select Major", 'year_of_attendance');
+                initializeSelect2('#data-select-get-university', "Select Major", 'get_university');
+
+                initializeSelect2('#data-select-student-nrc-code', "Select Major", 'student_nrc_code');
+                initializeSelect2('#data-select-father-nrc-code', "Select Major", 'father_nrc_code');
+                initializeSelect2('#data-select-mother-nrc-code', "Select Major", 'mother_nrc_code');
+            });
 
 
 
-            initializeSelect2('#data-select-type', 'type');
-            initializeSelect2('#data-select-major', 'major');
-            initializeSelect2('#data-select-get-university', 'get_university');
-
-            initializeSelect2('#data-select-student-nrc-code', 'student_nrc_code');
-            initializeSelect2('#data-select-father-nrc-code', 'father_nrc_code');
-            initializeSelect2('#data-select-mother-nrc-code', 'mother_nrc_code');
         });
+
     </script>
+
+
 @endpush
+

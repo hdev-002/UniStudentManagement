@@ -1,13 +1,19 @@
 <div class="mb-10">
     <div class="d-flex align-items-center justify-content-between mb-3">
-        <span class="d-flex align-items-center"><span class="fw-bolder fs-2 ms-2">Students</span></span>
+        <span class="d-flex align-items-center"><span class="fw-bolder fs-2 ms-2">
+                @if('uni-registration')
+                    ကျောင်းအပ်
+                @else
+                    မေဂျာတင်
+                @endif
+            </span></span>
 
 
         <!--begin::Add students-->
         @if($for != 'draft')
             <a href="{{ $for == 'major-registration' ? route('major-registration.create') : ($for == 'uni-registration' ? route('uin-registration.create') : route('students.create')) }}" class="btn btn-sm btn-flex btn-dark align-self-center px-3">
                 <i class="ki-outline ki-plus-square fs-3"></i>
-                {{ $for == 'major-registration' ? __('unistudentmanagement::students.create_major') : ($for == 'uni-registration' ? __('unistudentmanagement::students.create_university_registration') : __('unistudentmanagement::students.create_student')) }}
+               Create
             </a>
         @endif
         <!--end::Add students-->
@@ -96,26 +102,32 @@
 {{--                    </div>--}}
                     <!--end::Menu 1-->
                     <!--end::Filter-->
-                    <div class="me-3" wire:ignore>
-                        @if($for === 'major-registration')
-                            <select wire:model.change="filters.type" id="register_type_filter" data-hide-search="true" data-kt-select2="true" class="form-select form-select-sm w-150px border-1 border-dark">
-                                <option value="">{{ __('unistudentmanagement::students.all') }}</option>
-                                <option value="day">{{ __('unistudentmanagement::students.day') }}</option>
-                                <option value="distance">{{ __('unistudentmanagement::students.distance') }}</option>
-                                <option value="vip">{{ __('unistudentmanagement::students.vip') }}</option>
-                            </select>
-                        @endif
-                    </div>
+
                     @if (count($selectedStudents) > 0)
                         <span class="fw-bold me-2 my-auto">{{ count($selectedStudents) }} Selected</span>
-                        <button type="button" class="btn btn-sm btn-flex btn-danger align-self-center me-3" wire:click="bulkDeleteRequest">
-                          Delete Selected</button>
+                       @if($for == 'uni-registration')
+                            <button type="button" class="btn btn-sm btn-flex btn-danger align-self-center me-3" wire:click="bulkDeleteRequest">
+                                Delete Selected</button>
+                        @else
+                            <button type="button" class="btn btn-sm btn-flex btn-danger align-self-center me-3" wire:click="bulkDeleteRequest">
+                                Delete Selected</button>
+                       @endif
                         <button type="button" class="btn btn-sm btn-flex btn-dark align-self-center me-3" wire:click="bulkPrint">
                             Print Selected</button>
                    @else
+                        <div class="me-3" wire:ignore>
+                            @if($for === 'major-registration')
+                                <select wire:model.change="filters.type" id="register_type_filter" data-hide-search="true" data-kt-select2="true" class="form-select form-select-sm w-150px border-1 border-dark">
+                                    <option value="">{{ __('unistudentmanagement::students.all') }}</option>
+                                    <option value="day">{{ __('unistudentmanagement::students.day') }}</option>
+                                    <option value="distance">{{ __('unistudentmanagement::students.distance') }}</option>
+                                    <option value="vip">{{ __('unistudentmanagement::students.vip') }}</option>
+                                </select>
+                            @endif
+                        </div>
                     <!--begin::Export-->
-                    <button type="button" class="btn btn-sm btn-flex btn-outline btn-outline-dark align-self-center me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_export_users">
-                        <i class="ki-outline ki-exit-up fs-2"></i>Export</button>
+{{--                    <button type="button" class="btn btn-sm btn-flex btn-outline btn-outline-dark align-self-center me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_export_users">--}}
+{{--                        <i class="ki-outline ki-exit-up fs-2"></i>Export</button>--}}
                     <!--end::Export-->
                     @endif
                 </div>
@@ -414,7 +426,7 @@
             <!--begin::Table-->
             <div id="kt_table_users_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
                 <div id="" class="table-responsive">
-                    <table class="table align-middle  fs-6" style="width: 1094.5px;">
+                    <table  class="table align-middle table-row-bordered fs-6">
                         <thead class="text-nowrap">
                         <tr class="fw-semibold fs-6 text-gray-900  border-bottom border-gray-200" role="row">
                             <td>
@@ -423,9 +435,8 @@
                                         {{ count($selectedStudents) > 0 ? 'checked' : '' }}>
                                 </div>
                             </td>
-                            <th>{{ __('unistudentmanagement::students.actions') }}</th>
                             <th class="text-nowrap" wire:click="sortBy('name')">
-                                {{ __('unistudentmanagement::students.name') }}
+                               အမည်
 
                                 @if ($sortField === 'name')
                                     <i class="{{ $sortDirection === 'asc' ? 'ki-duotone ki-up' : 'ki-duotone ki-down' }}"></i>
@@ -437,11 +448,10 @@
                                 <th class="min-w-90px"> {{ __('unistudentmanagement::students.type') }}</th>
                                 <th class="min-w-90px"> {{ __('unistudentmanagement::students.approved_no') }}</th>
                             @elseif($for == 'uni-registration')
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.current_desk_no') }}</th>
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.previous_desk_no') }}</th>
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.university') }}</th>
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.major') }}</th>
-                                <th class="min-w-90px"> အောင်/ကျ</th>
+                                <th>ယခုနှစ် ခုံနံပါတ်</th>
+                                <th>ယခင်နှစ် ခုံနံပါတ်</th>
+                                <th>တက္ကသိုလ်</th>
+                                <th>ရလဒ်</th>
                             @else
                                 <th class="min-w-90px"> {{ __('unistudentmanagement::students.level') }}</th>
                                 <th class="min-w-90px"> {{ __('unistudentmanagement::students.student_nrc') }}</th>
@@ -452,77 +462,37 @@
                                 <th class="min-w-90px"> {{ __('unistudentmanagement::students.phone') }}</th>
                                 <th class="min-w-90px"> {{ __('unistudentmanagement::students.address') }}</th>
                             @endif
+                            <th></th>
 
                         </tr>
                         </thead>
-                        <tbody class="text-gray-600 fw-semibold text-nowrap">
+                        <tbody  class="text-gray-600 fw-semibold text-nowrap">
                         @if($for == 'uni-registration')
                             @forelse ($students as $student)
                                 <tr>
-                                    {{--                                <td>--}}
-                                    {{--                                    <div class="form-check form-check-sm form-check-custom form-check-solid">--}}
-                                    {{--                                        <input class="form-check-input" type="checkbox" value="1">--}}
-                                    {{--                                    </div>--}}
-                                    {{--                                </td>--}}
-                                    <td class="text-start">
-                                        <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            {{ __('unistudentmanagement::students.actions') }}
-                                            <i class="ki-outline ki-down fs-5 ms-1"></i></a>
-                                        <!--begin::Menu-->
-                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                            <!--begin::Menu item-->
-                                            <div class="menu-item px-3">
-                                                <button
-                                                    wire:click="printStudent({{ $student->id }})"
-                                                    class="menu-link px-3 btn btn-sm w-100"
-                                                    >Print
-                                                </button>
-                                            </div>
-                                            <!--end::Menu item-->
-                                            <!--begin::Menu item-->
-                                            <div class="menu-item px-3">
-                                                <a href="{{ route('students.show', $student->id) }}" class="menu-link px-3 btn btn-sm w-100">View Details</a>
-                                            </div>
-                                            <!--end::Menu item-->
-                                            <!--begin::Menu item-->
-                                            <div class="menu-item px-3">
-                                                @if($for == 'draft')
-                                                    <a href="{{ route('students.draft.edit', $student->id) }}" class="menu-link px-3"> {{ __('unistudentmanagement::students.edit') }}</a>
-                                                @elseif($for == 'uni-registration')
-                                                    <a href="{{ route('uin-registration.edit', $student->id) }}" class="menu-link px-3"> {{ __('unistudentmanagement::students.edit') }}</a>
-                                                @else
-                                                    <a href="{{ route('major-registration.edit', $student->id) }}" class="menu-link px-3"> {{ __('unistudentmanagement::students.edit') }}</a>
-                                                @endif
-
-
-                                            </div>
-                                            <!--end::Menu item-->
-                                            <!--begin::Menu item-->
-                                            <div class="menu-item px-3">
-                                                <button wire:click="deleteUser({{ $student->id }})" class="menu-link px-3 btn btn-sm w-100"> {{ __('unistudentmanagement::students.delete') }}</button>
-                                            </div>
-                                            <!--end::Menu item-->
+                                    <td>
+                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="checkbox"  value="{{ $student->id }}"
+                                                   wire:model.live="selectedStudents">
                                         </div>
-                                        <!--end::Menu-->
                                     </td>
-                                    <td class="d-flex align-items-center text-nowrap">
-                                        <!--begin::User details-->
-                                        <div class="d-flex flex-column">
-                                            <a href="apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">{{ $student->name }}</a>
-                                            <span>{{ $student->student_code }}</span>
-                                        </div>
-                                        <!--begin::User details-->
-                                    </td>
+                                   <td>
+                                       <a href="{{ route('students.show', $student->student_id) }}" class="text-gray-800 text-hover-primary">{{ $student->name }}</a>
+                                   </td>
                                     <td>{{ $student->current_desk_symbol }}-{{ $student->current_desk_no }}</td>
                                     <td>{{ $student->current_desk_symbol }}-{{ $student->current_desk_no }}</td>
                                     <td>{{ $student->get_university }}</td>
-                                    <td>{{ $student->major }}</td>
                                     <td>
                                         @if($student->is_win !== null)
                                             {{$student->is_win == 0 ? 'ကျ' : 'အောင်'}}
                                         @else
                                             {{ 'N/A' }}
                                         @endif
+                                    </td>
+                                    <td>
+                                        <button wire:click="printStudent({{ $student->student_id }})" class="btn btn-light btn-active-light-primary btn-icon  w-10px h-10px">
+                                            <i class="ki-outline ki-printer text-gray-900 fs-3"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             @empty
@@ -536,61 +506,20 @@
                                                    wire:model.live="selectedStudents">
                                         </div>
                                     </td>
-                                    <td class="text-start">
-                                        <button wire:click="printStudent({{ $student->id }})" class="btn btn-light btn-active-light-primary btn-icon btn-sm">
-                                            <i class="ki-outline ki-printer text-gray-900 fs-2"></i>
-                                        </button>
-                                        <!--begin::Menu-->
-                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                            <!--begin::Menu item-->
-                                            <div class="menu-item px-3">
-                                                <button
-                                                    wire:click="printStudent({{ $student->id }})"
-                                                    class="menu-link px-3 btn btn-sm w-100"
-                                                >Print
-                                                </button>
-                                            </div>
-                                            <!--end::Menu item-->
-                                            <!--begin::Menu item-->
-                                            <div class="menu-item px-3">
-                                                <a href="" class="menu-link px-3 btn btn-sm w-100">View Details</a>
-                                            </div>
-                                            <!--end::Menu item-->
-                                            <!--begin::Menu item-->
-                                            <div class="menu-item px-3">
 
-                                                @if($for == 'draft')
-                                                    <a href="{{ route('students.draft.edit', $student->id) }}" class="menu-link px-3"> {{ __('unistudentmanagement::students.edit') }}</a>
-                                                @elseif($for == 'uin-registration')
-                                                    <a href="{{ route('uin-registration.edit', $student->id) }}" class="menu-link px-3"> {{ __('unistudentmanagement::students.edit') }}</a>
-                                                @else
-                                                    <a href="{{ route('major-registration.edit', $student->id) }}" class="menu-link px-3"> {{ __('unistudentmanagement::students.edit') }}</a>
-                                                @endif
-
-
-                                            </div>
-                                            <!--end::Menu item-->
-                                            <!--begin::Menu item-->
-                                            <div class="menu-item px-3">
-                                                <button wire:click="deleteUser({{ $student->id }})" class="menu-link px-3 btn btn-sm w-100"> {{ __('unistudentmanagement::students.delete') }}</button>
-                                            </div>
-                                            <!--end::Menu item-->
-                                        </div>
-                                        <!--end::Menu-->
-                                    </td>
-                                    <td class="d-flex align-items-center text-nowrap">
-                                        <!--begin::User details-->
-                                        <div class="d-flex flex-column">
-                                            <a href="{{ route('students.show', $student->id) }}" class="text-gray-800 text-hover-primary mb-1">{{ $student->name }}</a>
-                                            <span>{{ $student->student_code }}</span>
-                                        </div>
-                                        <!--begin::User details-->
+                                    <td>
+                                        <a href="{{ route('students.show', $student->id) }}" class="text-gray-800 text-hover-primary mb-1">{{ $student->name }}</a>
                                     </td>
                                     @if($for == 'major-registration')
                                         <td>{{ $student->get_university }}</td>
                                         <td>{{ $student?->major }}</td>
                                         <td>{{ $student?->type }}</td>
                                         <td>{{ $student?->approval_no }}</td>
+                                        <td>
+                                            <button wire:click="printStudent({{ $student->id }})" class="btn btn-light btn-active-light-primary btn-icon w-10px h-10px">
+                                                <i class="ki-outline ki-printer text-gray-900 fs-2"></i>
+                                            </button>
+                                        </td>
                                     @else
                                         <td>{{ $student->level ?? 'N/A' }}</td>
                                         <td>

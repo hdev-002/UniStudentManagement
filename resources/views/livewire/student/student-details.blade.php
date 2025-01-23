@@ -1,12 +1,18 @@
 <div>
     <div class="d-flex align-items-center justify-content-between mb-3">
         <span class="d-flex align-items-center">
-            <a href="{{ route('students.index') }}" class="btn btn-icon btn-custom w-35px h-35px w-md-40px h-md-40px btn-active-light-secondary"><i class="fa-solid fa-arrow-left"></i></a>
+            <a href="{{ route('major-registration.index') }}" class="btn btn-icon btn-custom w-35px h-35px w-md-40px h-md-40px btn-active-light-secondary"><i class="fa-solid fa-arrow-left"></i></a>
             <span class="fw-bolder fs-2 ms-2">{{ $student->student_code }}</span>
             <span wire:loading class="text-secondary-emphasis ms-2"> <i class="fa fa-spinner fa-spin"></i>  Saving Draft...</span></span>
 
-                    <button wire:click="printStudent()" class="btn btn-sm btn-flex btn-outline-dark btn-outline btn-secondary align-self-center px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
-                        <i class="ki-outline ki-printer fs-3"></i>Print</button>
+        <div>
+            <a href="{{ route('uin-registration.edit', $student->id) }}" class="btn btn-sm btn-flex btn-outline-dark btn-outline btn-secondary align-self-center px-3">
+                Edit
+            </a>
+
+            <button wire:click="printStudent()" class="btn btn-sm btn-flex btn-outline-dark btn-outline btn-secondary align-self-center px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
+                <i class="ki-outline ki-printer fs-3"></i>Print</button>
+        </div>
 
 
     </div>
@@ -32,7 +38,7 @@
                             Level</div>
                             </td>
                             <td class="fw-bold text-end py-2">
-                                {{ $student->level == 1 ? 'First Year' : ($student->level == 2 ? 'Second Year' : ($student->level == 3 ? 'Third Year' : ($student->level == 4 ? 'Fourth Year' : ($student->level == 5 ? 'Fifth Year' : 'N/A')))) }}
+                            {{ $student->level == 0 ? 'မေဂျာတင်' : ($student->level == 1 ? 'First Year' : ($student->level == 2 ? 'Second Year' : ($student->level == 3 ? 'Third Year' : ($student->level == 4 ? 'Fourth Year' : ($student->level == 5 ? 'Fifth Year' : 'N/A'))))) }}
                             </td>
                         </tr>
                         <tr>

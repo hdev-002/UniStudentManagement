@@ -36,8 +36,9 @@ Route::middleware([
 
     Route::prefix('uni-registration')->name('uin-registration.')->group(function () {
         Route::get('/', [UniStudentManagementController::class, 'uniRegistrationIndex'])->name('index');
-        Route::get('/create', [UniStudentManagementController::class, 'uniRegistrationCreate'])->name('create');
-        Route::get('/{student}/edit', [UniStudentManagementController::class, 'uniRegistrationEdit'])->name('edit');
+        Route::get('/create-v1', [UniStudentManagementController::class, 'uniRegistrationCreate'])->name('create-v1');
+        Route::get('/create', \Modules\UniStudentManagement\Livewire\University\UniRegisterCreateV1::class )->name('create');
+        Route::get('/{student}/edit', \Modules\UniStudentManagement\Livewire\StudentUpdate::class)->name('edit');
     });
 
     Route::get('/students/{student}/print', function ($studentId) {

@@ -1,11 +1,11 @@
 <div wire:ignore.self>
     <div wire:ignore>
         <select
-            class="form-select select-{{ $componentId }}"
+            class="form-select border-warning border border-2 form-select-sm select-{{ $componentId }}"
             id="data-select-{{ $componentId }}"
             wire:model="dataSelected"
             data-control="select2"
-            data-placeholder="Select a student"
+            data-placeholder="ကျောင်းသား/သူ ဟောင်းရွေးပါ"
             data-url="{{ route('students.search') }}"
         >
         </select>

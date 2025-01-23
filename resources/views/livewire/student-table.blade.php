@@ -1,7 +1,7 @@
 <div class="mb-10">
     <div class="d-flex align-items-center justify-content-between mb-3">
         <span class="d-flex align-items-center"><span class="fw-bolder fs-2 ms-2">
-                @if('uni-registration')
+                @if($for == 'uni-registration')
                     ကျောင်းအပ်
                 @else
                     မေဂျာတင်
@@ -443,24 +443,24 @@
                                 @endif
                             </th>
                             @if($for == 'major-registration')
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.university') }}</th>
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.major') }}</th>
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.type') }}</th>
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.approved_no') }}</th>
+                                <th class="min-w-90px"> တက္ကသိုလ်</th>
+                                <th class="min-w-90px"> မေဂျာ</th>
+                                <th class="min-w-90px"> အမျိုးစား</th>
+                                <th class="min-w-90px"> ဝင်ခွင့်စဥ်</th>
                             @elseif($for == 'uni-registration')
                                 <th>ယခုနှစ် ခုံနံပါတ်</th>
                                 <th>ယခင်နှစ် ခုံနံပါတ်</th>
                                 <th>တက္ကသိုလ်</th>
                                 <th>ရလဒ်</th>
                             @else
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.level') }}</th>
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.student_nrc') }}</th>
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.father') }}</th>
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.father_nrc') }}</th>
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.mother') }}</th>
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.mother_nrc') }}</th>
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.phone') }}</th>
-                                <th class="min-w-90px"> {{ __('unistudentmanagement::students.address') }}</th>
+                                <th class="min-w-90px"> အတန်း</th>
+                                <th class="min-w-90px"> ကျောင်းသား မှတ်ပုံတင်</th>
+                                <th class="min-w-90px"> ဖခင်အမည်</th>
+                                <th class="min-w-90px"> ဖခင် မှတ်ပုံတင်</th>
+                                <th class="min-w-90px"> မိခင်အမည်</th>
+                                <th class="min-w-90px"> မိခင်မှတ်ပုံတင်</th>
+                                <th class="min-w-90px"> ကျောင်းသားဖုန်း</th>
+                                <th class="min-w-90px"> နေရပ်လိပ်စာ</th>
                             @endif
                             <th></th>
 
@@ -557,9 +557,9 @@
                                             <!--begin::Message-->
                                             <div class="fw-semibold py-10">
                                                 <div class="text-gray-600 fs-3 mb-2">
-                                                    {{ __('unistudentmanagement::students.no_student_found') }}
+                                                    ကျောင်းသား/သူ မရှိပါ
                                                 </div>
-                                                <div class="text-muted fs-6">{{ __('unistudentmanagement::students.try_to_search_by_student_name') }}</div>
+                                                <div class="text-muted fs-6">ကျောင်းသား/သူ အမည်ဖြင့် ရှာဖွေနိုင်သည်</div>
                                             </div>
                                             <!--end::Message-->
                                         </div>

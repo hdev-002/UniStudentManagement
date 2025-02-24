@@ -11,6 +11,9 @@ class UniStudentManagementDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([]);
+               \Modules\UniStudentManagement\Models\UsmSettings::create(
+            ['key' => 'year_of_record'],
+            ['value' => 2025]
+        );
     }
 }
